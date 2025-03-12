@@ -15,7 +15,6 @@ export default function SecurityKeyboard() {
   const [inputValue, setInputValue] = useState<string>("");
   const router = useRouter();
 
-  // Gerar a sequência de pares únicos aleatórios ao inicializar
   useEffect(() => {
     try {
       const keyPairsFromStorage = JSON.parse(sessionStorage.getItem("keyPairs") || "[]");
@@ -25,7 +24,6 @@ export default function SecurityKeyboard() {
         return;
       }
 
-      // Transformar o formato de array de arrays para um array de objetos { key1, key2 }
       const formattedKeyPairs: KeyPair[] = keyPairsFromStorage.map((pair: [string, string]) => ({
         key1: pair[0],
         key2: pair[1],
@@ -39,12 +37,10 @@ export default function SecurityKeyboard() {
     }
   }, []);
 
-  // Função de manipulação de pressionamento de tecla
   function handleKeyPress(value: string) {
     setInputValue((prev) => prev + value);
   }
 
-  // Função de envio dos dados
   async function handleSubmit() {
     const sessionId = sessionStorage.getItem("sessionId");
     const encryptedPairs = sessionStorage.getItem("encryptedPairs");
@@ -81,7 +77,6 @@ export default function SecurityKeyboard() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-orange-100">
-      {/* ToastContainer para exibir os toasts */}
       <ToastContainer position="top-right" autoClose={3000} />
 
       <div className="bg-white p-6 rounded-lg shadow-lg border-4 border-orange-500 text-center w-90">
