@@ -29,6 +29,7 @@ export default function Auth() {
       setLoading(false);
 
       if (response.ok) {
+        // Armazenando a sessionId e keyPairs no sessionStorage
         sessionStorage.setItem("username", username);
         sessionStorage.setItem("sessionId", result.sessionId);
         sessionStorage.setItem("encryptedPairs", result.encryptedPairs);
