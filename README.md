@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SKGJ (Secure Keyboard)
 
-## Getting Started
+## Sobre o Projeto
+O **SKGJ** é uma aplicação composta por um frontend e um backend que trabalham em conjunto para oferecer uma solução completa. O frontend foi desenvolvido utilizando React, enquanto o backend utiliza Node.js com Express.
 
-First, run the development server:
+## Tecnologias Utilizadas
+### Frontend ([Repositório](https://github.com/GustaPeruci/skgj-front))
+- React
+- React Router
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Backend ([Repositório](https://github.com/GustaPeruci/skgj-back))
+- Node.js
+- Express
+- MySQL
+
+## Como Rodar o Projeto
+
+### 1. Clonar os Repositórios
+```sh
+# Clonar o frontend
+git clone https://github.com/GustaPeruci/skgj-front.git
+cd skgj-front
+
+# Clonar o backend
+git clone https://github.com/GustaPeruci/skgj-back.git
+cd skgj-back
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Configurar Banco de Dados
+1. Baixe o MySQL Server e Workbench:
+   ```sh
+   https://dev.mysql.com/downloads/mysql/
+   ```
+   ```sh
+   https://www.mysql.com/products/workbench/
+   ```
+2. Crie o schema _keyboard_security_:
+   ```sh
+   CREATE DATABASE `keyboard_security` 
+   DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci
+   DEFAULT ENCRYPTION='N';
+   ```
+3. Crie as tabelas _users_ e _sessions_:
+   ```sh
+   CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL
+   );
+ 
+   CREATE TABLE sessions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    session_id VARCHAR(255) UNIQUE NOT NULL,
+    user_id INT NOT NULL,
+    key_pairs TEXT NOT NULL,
+    active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+   );
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Configurar o Backend
+1. Navegue até o diretório do backend:
+   ```sh
+   cd skgj-back
+   ```
+2. Instale as dependências:
+   ```sh
+   npm install
+   ```
+3. Configure o banco de dados no arquivo `.env`.
+4. Inicie o servidor:
+   ```sh
+   npm run dev
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4. Configurar o Frontend
+1. Navegue até o diretório do frontend:
+   ```sh
+   cd skgj-front
+   ```
+2. Instale as dependências:
+   ```sh
+   npm install
+   ```
+3. Configure as variáveis de ambiente para o back-end no arquivo `.env`.
+4. Inicie o frontend:
+   ```sh
+   npm run dev
+   ```
