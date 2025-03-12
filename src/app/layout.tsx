@@ -1,5 +1,4 @@
-// layout.tsx
-import "./globals.css"; // Mantém o CSS global do Next.js
+import "./globals.css";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

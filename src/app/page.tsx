@@ -9,6 +9,7 @@ export default function Auth() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   async function handleSubmit(event: React.FormEvent) {
@@ -28,13 +29,11 @@ export default function Auth() {
       setLoading(false);
 
       if (response.ok) {
-        // Armazenando a sessionId e keyPairs no sessionStorage
         sessionStorage.setItem("username", username);
         sessionStorage.setItem("sessionId", result.sessionId);
         sessionStorage.setItem("encryptedPairs", result.encryptedPairs);
         sessionStorage.setItem("keyPairs", result.keyPairs);
-
-        // Redirecionando para o teclado
+        
         router.push("/keyboard");
       } else {
         setError(result.message || "Erro ao autenticar");
@@ -60,19 +59,30 @@ export default function Auth() {
               placeholder="Nome de usuário"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-2 border rounded text-center text-lg"
+              className="w-full p-2 border rounded text-center text-lg text-gray-700"
               required
             />
           </div>
-          <div className="mt-4">
+          <div className="mt-4 relative">
             <input
-              type="password"
-              placeholder="Senha"
+              type={showPassword ? "text" : "password"}
+              placeholder="Senha (somente números)"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border rounded text-center text-lg"
+              onChange={(e) => {
+                const value = e.target.value.replace(/\D/g, "").slice(0, 6);
+                setPassword(value);
+              }}
+              className="w-full p-2 border rounded text-center text-lg pr-10 text-gray-700"
               required
+              maxLength={6}
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-700"
+            >
+              {showPassword ? "🙈" : "👁"}
+            </button>
           </div>
           <div className="mt-4">
             <button
